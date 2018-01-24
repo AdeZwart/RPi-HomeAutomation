@@ -2,6 +2,7 @@ import os
 import random
 import telepot
 import config
+import DoorCam
 from time import sleep, localtime, strftime
 
 # Read the API token from the config file
@@ -15,7 +16,7 @@ CODEROOT = '/home/pi/Code'
 IMGROOT = CODEROOT + '/img'
 TXTROOT = CODEROOT + '/txt'
 
-#Reference:http://unicode.org/emoji/charts/full-emoji-list.html
+# Reference:http://unicode.org/emoji/charts/full-emoji-list.html
 grinningcat = u'\U0001F63A' #ginning cat face with smiling eyes
 
 def send_image(chat_id,bool):
@@ -25,7 +26,15 @@ def send_image(chat_id,bool):
     if bool:
         bot.sendPhoto(chat_id,open(IMGROOT+'/static/'+img_name,'rb'),caption='',reply_markup=hide_keyboard)
         return
-
+    
+def send_pic(pic_path,chat_id):
+    if pic_path:
+        hide_keyboard={'hide_keyboard':True}
+        bot.sendPhoto(chat_id,open(pic_path,'rb'),caption='',reply_markup=hide_keyboard)
+    else:
+        bot.sendMessage(chat_id, "Whoops, Camera unavailable!")
+    return
+    
 def handle(msg):
     chat_id=msg['chat']['id']
 
@@ -40,6 +49,9 @@ def handle(msg):
         bot.sendMessage(chat_id, random_line)
     elif message == '/meme@platocatbot' or message == '/meme':
         send_image(chat_id,True)
+    elif message == '/pic@platocatbot' or message == '/pic':
+        pic_path = DoorCam.capture_cam_image()
+        send_pic(pic_path,chat_id)
     else:
         bot.sendMessage(chat_id, "Unknown command")
 
