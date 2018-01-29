@@ -1,7 +1,7 @@
 import os
 import random
 import telepot
-import config
+import ProjectConfigParser
 import DoorCam
 from time import sleep, localtime, strftime
 

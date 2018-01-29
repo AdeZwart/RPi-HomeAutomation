@@ -1,5 +1,7 @@
 import sys
-import TelegramBot
+#import TelegramBot
 
 def main():
     pass
+
+main()
