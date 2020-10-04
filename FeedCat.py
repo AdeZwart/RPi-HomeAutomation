@@ -46,7 +46,7 @@ def OpenCatDoorOut(canCatGoOut):
         else:
             # close the cat door for going out
             isDoorOutOpen = False
-            
+
 # public functions
 def AddMinutes(tm, mins):
     fulldate = tm + dt.timedelta(seconds=mins)
@@ -58,8 +58,6 @@ def TimeDiff(tm1, tm2):
 
 def Rotate():
     pwm.start(5)
-    #time.sleep(0.475)
-    #time.sleep(0.225)
     time.sleep(1)
     pwm.stop()
 
@@ -75,12 +73,12 @@ def CatDoorInOnly():
 def CatDoorOutOnly():
     OpenCatDoorIn(False)
     OpenCatDoorOut(True)
-    
+
 def CatDoorClose(catIsIndoor):
     OpenCatDoorIn(False)
     OpenCatDoorOut(False)
 
-# Init the feeding variables    
+# Init the feeding variables
 lastFed=dt.datetime.now()
 nextFeed=AddMinutes(lastFed, 1)
 endFeeding=AddMinutes(lastFed, 5)
@@ -94,12 +92,9 @@ while True:
         r = 10 #randint(30, 180)
         nextFeed=AddMinutes(lastFed, r)
         print ('Next feed @ %s' %nextFeed.isoformat())
-#    elif dt.datetime.now() > endFeeding:
-#        print ('I\'m done feeding')
-#        break
     else:
         print ('Next feed in %s seconds' %TimeDiff(nextFeed, dt.datetime.now()))
         time.sleep(5)
 
-# Cleanup the GPIO settings        
+# Cleanup the GPIO settings
 GPIO.cleanup()
